@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { ENV_NAME } from '@env';
 import {
   StatusBar,
@@ -9,21 +10,32 @@ import {
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import colors from './src/constants/colors';
 import typography from './src/constants/typography';
+import Splash from './src/screens/Splash';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SafeAreaView>
-        <View style={styles.envBadge}>
-          <Text style={styles.envBadgeText}>Env: {ENV_NAME}</Text>
-        </View>
+      {showSplash ? (
+        <Splash />
+      ) : (
+        <SafeAreaView>
+          <View style={styles.envBadge}>
+            <Text style={styles.envBadgeText}>Env: {ENV_NAME}</Text>
+          </View>
 
-        <Text style={styles.heading}>Welcome to InsurUp</Text>
-        <Text style={styles.subheading}>Your insurance companion app</Text>
-      </SafeAreaView>
+          <Text style={styles.heading}>Welcome to InsurUp</Text>
+          <Text style={styles.subheading}>Your insurance companion app</Text>
+        </SafeAreaView>
+      )}
     </SafeAreaProvider>
   );
 }
