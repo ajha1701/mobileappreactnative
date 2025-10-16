@@ -20,7 +20,10 @@ target 'InsurUp' do
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    # Disable New Architecture
+    :fabric_enabled => false,
+    :hermes_enabled => true
   )
 
   post_install do |installer|
@@ -30,5 +33,12 @@ target 'InsurUp' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    
+    # Disable New Architecture
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['RCT_NEW_ARCH_ENABLED'] = '0'
+      end
+    end
   end
 end
