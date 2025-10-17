@@ -1,3 +1,3 @@
 module.exports = {
-  assets: ['./src/assets/Rubik/static'],
+  assets: ['./src/assets/fonts/Rubik/static'],
 };
